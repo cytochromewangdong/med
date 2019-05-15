@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+<title>TM Retreat/Check</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+</head>
+<body>
+
+	<div id="global">
+		<form action="search" method="post">
+			<fieldset>
+				<legend>Search List</legend>
+				<input type="text" placeholder="mm/dd/yyyy" name="startDate" />
+			    <input type="text" placeholder="mm/dd/yyyy" name="endDate" />
+				<p id="buttons">
+					<input id="submit" type="submit" tabindex="5" value="Search">
+				</p>
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>
