@@ -15,7 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import com.students.mum.security.JwtAuthenticationFilter;
+import com.students.mum.security.XYZJwtAuthenticationFilter;
 import com.students.mum.security.JwtAuthorizationFilter;
 import com.students.mum.security.SecurityConstants;
 import com.students.mum.security.UserDetailsServiceImpl;
@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// http.sessionManagement().disable();
 		http.rememberMe().rememberMeParameter("remember-me").key("uniqueAndSecret");
 		http.headers().frameOptions().disable();
-		http.addFilter(new JwtAuthenticationFilter(authenticationManager()))
+		http.addFilter(new XYZJwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}

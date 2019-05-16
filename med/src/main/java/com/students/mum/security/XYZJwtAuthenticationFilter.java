@@ -21,11 +21,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class XYZJwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private final AuthenticationManager authenticationManager;
 
-	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+	public XYZJwtAuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 
 //		setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
