@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!--/* Head takes 3 arguments that are fragments */-->
+<head>
+
+<!--/*  Title will be replaced by their respective titles in the calling template. */-->
+<title>Task List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!--/* Default links; can be replaced by the calling templates */-->
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/core.css}" />
+
+
+<!--/* Default scripts; can be replaced by the calling templates */-->
+<script src="../../../resources/js/jquery.min.js"
+	th:src="@{/resources/js/jquery.min.js}"></script>
+<script src="../../../resources/js/bootstrap.min.js"
+	th:src="@{/resources/js/bootstrap.min.js}"></script>
+
+
+</head>
+<body>
+	<!--/* Header fragment */-->
+	<!--/* The value passed from calling template will be inserted in this element */-->
+	<div class="container" layout:fragment="app-content">
+	</div>
+</body>
+</html>
