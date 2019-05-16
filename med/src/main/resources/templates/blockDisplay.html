@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<body>
+
+	<!--/* Insert content fragment with content of the element with id = 'task-details' */-->
+	<div layout:fragment="app-content">
+		<div id="task-details">
+			<table class="table table-bordered table-striped" >
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>CourseName</td>
+						<td>Start Date</td>
+						<td>End Date</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${blockList.empty}">
+						<td colspan="4">No Blocks</td>
+					</tr>
+					<tr th:each="block : ${blockList}">
+						<td th:text="${block.id}">1</td>
+						<td><a href="#" th:href="@{/block/{id}(id=${block.id})}"
+							th:text="${block.course.name}">name ...</a></td>
+						<td th:text="${#calendars.format(block.startDate)}">July 11, 2017 CDT</td>
+						<td th:text="${#calendars.format(block.endDate)}">July 11, 2017 CDT</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

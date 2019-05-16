@@ -1,15 +1,13 @@
 package com.students.mum.mock;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.students.mum.domain.Course;
+import com.students.mum.domain.Block;
+import com.students.mum.domain.Faculty;
+import com.students.mum.domain.Faculty.FacultyType;
 import com.students.mum.domain.LoginUser;
 import com.students.mum.repository.BlockRepository;
 import com.students.mum.repository.CourseRepository;
@@ -18,7 +16,7 @@ import com.students.mum.repository.RoleRepository;
 import com.students.mum.service.UserService;
 
 @Service
-public class AllInOne {
+public class HandlerOne {
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -32,31 +30,26 @@ public class AllInOne {
 	@Autowired
 	private BlockRepository blockRepository;
 
-	@Autowired
-	private HandlerOne handlerOne;
-
-	@PostConstruct
 	@Transactional
-	public void createData() {
+	public void mockBlockData() {
+		Faculty faculty = new Faculty();
+		faculty.setName("Prof1");
+		faculty.setType(FacultyType.professor);
 		LoginUser user = new LoginUser();
-		user.setUsername("123");
-		user.setPassword("123");
+		user.setUsername("2");
+		user.setPassword("2");
 		user.setRoles(roleRepository.findAll());
-		// loginUserRepository.save(user);
 		userService.signUp(user);
 
-		Course course = new Course();
-		course.setCode("CS545");
-		course.setName("(WAA)Web application architecture");
-		course.setCredit(4);
-		Course course2 = new Course();
-		course2.setCode("CS572");
-		course2.setName("(MWA)Modern web application");
-		course2.setCredit(4);
-		List<Course> sourseList = Arrays.asList(course, course2);
+		faculty.setLoginUser(user);
 
-		courseRepository.saveAll(sourseList);
-		handlerOne.mockBlockData();
+		Block block = new Block();
+		block.setCourse(courseRepository.findAll().get(0));
+		block.setProfessor(faculty);
+//		faculty.getBlockList().add(block);
+		facultyRepository.save(faculty);
+		blockRepository.save(block);
+	
+
 	}
-
 }
