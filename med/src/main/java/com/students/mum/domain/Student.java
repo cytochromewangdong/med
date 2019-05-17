@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -19,15 +19,21 @@ public class Student {
 
 	@Id
 	private String number;
+	@Column(unique = true)
 	private String barcode;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private LoginUser loginUser;
 
 	@ManyToMany(mappedBy = "studentList")
-	private List<Block> blockList = new ArrayList<>();
+	private List<Section> sectionList = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
 	private List<TmCheckRetreat> tmCheckRetreatList = new ArrayList<>();
+
+	private int testGroup;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+	private List<MeditationRecord> meditationRecordList = new ArrayList<>();
 
 }

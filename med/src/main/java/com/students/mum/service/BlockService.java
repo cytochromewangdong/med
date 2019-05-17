@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.students.mum.domain.Block;
 import com.students.mum.repository.BlockRepository;
-import com.students.mum.repository.StudentRepository;
 
 @Service
 @Transactional
@@ -31,7 +30,7 @@ public class BlockService {
 	public List<Block> findAll() {
 		Order order = Order.desc("modifyDate");
 		List<Block> list = blockRepository.findAll();// Sort.by(order,order)
-		list.forEach(block -> block.getCourse());
+//		list.forEach(block -> block.getCourse());
 		return list;
 	}
 

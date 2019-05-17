@@ -4,58 +4,42 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Future;
+import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.students.mum.domain.base.BaseEnity;
+import com.students.mum.domain.base.DefaultPrimaryKeyEntity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @Entity
 // @BlockDate(min = 5, maximum = 50)
-public class Block extends BaseEnity {
+public class Block extends DefaultPrimaryKeyEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	// @NotNull
-	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	private Course course;
-
-	// @NotNull
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	@Future
+	// @Future
 	private LocalDate startDate;
 
 	// @NotNull
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	@Future
+	// @Future
 	private LocalDate endDate;
 
 	// @NotNull
 	// @Min(5)
 	private Integer sessionDays;
 
-	// @NotNull
-	@ManyToOne
-	@JoinColumn(name = "PROFESSOR_ID")
-	private Faculty professor;
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable
-	private List<Student> studentList = new ArrayList<>();
+	@OneToMany(mappedBy = "block") // cascade = CascadeType.MERGE,
+	private List<Section> sectionList = new ArrayList<>();
 }
