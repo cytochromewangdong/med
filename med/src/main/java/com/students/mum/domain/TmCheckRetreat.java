@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -20,7 +22,7 @@ public class TmCheckRetreat {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	private CheckRetreatType type;
 
@@ -28,6 +30,7 @@ public class TmCheckRetreat {
 	@JoinColumn(name = "student_no")
 	private Student student;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	private LocalDate date;
 
 }

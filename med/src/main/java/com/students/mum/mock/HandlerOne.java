@@ -30,26 +30,5 @@ public class HandlerOne {
 	@Autowired
 	private BlockRepository blockRepository;
 
-	@Transactional
-	public void mockBlockData() {
-		Faculty faculty = new Faculty();
-		faculty.setName("Prof1");
-		faculty.setType(FacultyType.professor);
-		LoginUser user = new LoginUser();
-		user.setUsername("2");
-		user.setPassword("2");
-		user.setRoles(roleRepository.findAll());
-		userService.signUp(user);
 
-		faculty.setLoginUser(user);
-
-		Block block = new Block();
-		block.setCourse(courseRepository.findAll().get(0));
-		block.setProfessor(faculty);
-//		faculty.getBlockList().add(block);
-		facultyRepository.save(faculty);
-		blockRepository.save(block);
-	
-
-	}
 }

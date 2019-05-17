@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.students.mum.domain.Student;
 import com.students.mum.domain.TmCheckRetreat;
 import com.students.mum.domain.TmCheckRetreat.CheckRetreatType;
+import com.students.mum.dto.TmCheckRetreatDto;
 import com.students.mum.repository.StudentRepository;
 import com.students.mum.repository.TmCheckRetreatRepository;
 
@@ -25,38 +26,34 @@ public class TmCheckRetreatService {
 	@Autowired
 	private StudentRepository studentRepository;
 
-	public TmCheckRetreat addTmCheckRetreat(String studentNo, LocalDate date, CheckRetreatType type) {
-		Optional<Student> optionalStudent = studentRepository.findById(studentNo);
-		if (!optionalStudent.isPresent()) {
-			// can be optimized
-			return null;
+	public TmCheckRetreat saveTmCheckRetreat(TmCheckRetreatDto dto) {
+		TmCheckRetreat tmCheckRetreat = dto.getId() == null ? new TmCheckRetreat()
+				: tmCheckRetreatRepository.getOne(dto.getId());
+		tmCheckRetreat.setDate(dto.getDate());
+		tmCheckRetreat.setType(dto.getType());
+		if (tmCheckRetreat.getStudent() != null) {
+			tmCheckRetreat.getStudent().getTmCheckRetreatList().remove(tmCheckRetreat);
 		}
-		TmCheckRetreat tmCheckRetreat = new TmCheckRetreat();
-		tmCheckRetreat.setDate(date);
-		tmCheckRetreat.setType(type);
-		tmCheckRetreat.setStudent(optionalStudent.get());
+		Student student = studentRepository.getOne(dto.getStudent().getNumber());
+		tmCheckRetreat.setStudent(student);
+		student.getTmCheckRetreatList().add(tmCheckRetreat);
 		return tmCheckRetreatRepository.save(tmCheckRetreat);
 
 	}
 
 	public void removeTmCheckRetreat(long id) {
-		tmCheckRetreatRepository.deleteById(id);
-	}
-
-	public TmCheckRetreat updateTmCheckRetreat(long id, String studentNo, LocalDate date, CheckRetreatType type) {
-		Optional<Student> optionalStudent = studentRepository.findById(studentNo);
-		if (!optionalStudent.isPresent()) {
-			// can be optimized
-			return null;
-		}
 		TmCheckRetreat tmCheckRetreat = tmCheckRetreatRepository.getOne(id);
-		tmCheckRetreat.setDate(date);
-		tmCheckRetreat.setType(type);
-		tmCheckRetreat.setStudent(optionalStudent.get());
-		return tmCheckRetreat;
+		tmCheckRetreat.setStudent(null);
+		tmCheckRetreat.getStudent().getTmCheckRetreatList().remove(tmCheckRetreat);
 	}
 
 	public List<TmCheckRetreat> findTmCheckRetreatByDate(LocalDate startDate, LocalDate endDate) {
 		return tmCheckRetreatRepository.findByDateBetweenOrderByIdDesc(startDate, endDate);
+	}
+
+	public boolean checkDuplicate(TmCheckRetreatDto dto) {
+		return !studentRepository.getOne(dto.getStudent().getNumber()).getTmCheckRetreatList().stream()
+				.filter(tm -> !tm.getId().equals(dto.getId()) && tm.getDate().equals(dto.getDate())).findAny()
+				.isPresent();
 	}
 }

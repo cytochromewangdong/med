@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.students.mum.domain.Block;
 import com.students.mum.repository.BlockRepository;
+import com.students.mum.repository.StudentRepository;
 
 @Service
 @Transactional
@@ -23,19 +24,18 @@ public class BlockService {
 		Block block = blockRepository.getOne(id);
 		block.setStartDate(startDate);
 		block.setEndDate(endDate);
-//		return blockRepository.save(block);
+		// return blockRepository.save(block);
 		return block;
 	}
 
 	public List<Block> findAll() {
 		Order order = Order.desc("modifyDate");
 		List<Block> list = blockRepository.findAll();// Sort.by(order,order)
-		list.forEach(block->block.getCourse());
+		list.forEach(block -> block.getCourse());
 		return list;
 	}
 
-	public void removeBlock(long id)
-	{
+	public void removeBlock(long id) {
 		blockRepository.deleteById(id);
 	}
 }
