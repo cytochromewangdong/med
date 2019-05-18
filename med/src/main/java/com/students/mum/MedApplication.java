@@ -31,7 +31,7 @@ public class MedApplication {
 
 //	@Bean
 //	public JobDetail sampleJobDetail() {
-//		return JobBuilder.newJob(ImportJob.class).withIdentity("sampleJob")
+//		return JobBuilder.newJob(CommonJob.class).withIdentity("sampleJob")
 //				.usingJobData("name", "World").storeDurably().build();
 //	}
 //
