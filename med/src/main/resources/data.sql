@@ -5,6 +5,3 @@ create table if not exists persistent_logins (
   last_used timestamp not null
   );
 
-INSERT INTO Role VALUES (1, 'ADMIN');
-INSERT INTO Role VALUES (2, 'FACULTY');
-INSERT INTO Role VALUES (3, 'STUDENT');

@@ -1,6 +1,7 @@
 package com.students.mum.domain;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,4 +25,6 @@ public class LoginUser {
 
 	@ManyToMany
 	private List<Role> roles = new ArrayList<>();
+	
+	
 }
