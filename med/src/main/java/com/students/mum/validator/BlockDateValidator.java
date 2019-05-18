@@ -33,9 +33,9 @@ public class BlockDateValidator implements ConstraintValidator<BlockDate, Block>
 		if (gap < minValue || gap > maxValue) {
 			return false;
 		}
-		if (value.getSessionDays() > gap) {
-			return false;
-		}
+//		if (value.getSessionDays() > gap) {
+//			return false;
+//		}
 		return true;
 	}
 

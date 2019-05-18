@@ -38,8 +38,11 @@ public class Block extends DefaultPrimaryKeyEntity {
 
 	// @NotNull
 	// @Min(5)
-	private Integer sessionDays;
+//	private Integer sessionDays;
 
 	@OneToMany(mappedBy = "block") // cascade = CascadeType.MERGE,
 	private List<Section> sectionList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "block")
+	private List<BlockStudentStatistics> blockStudentStatisticsList;
 }

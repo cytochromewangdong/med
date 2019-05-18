@@ -78,7 +78,7 @@ public class HandlerOne {
 
 		block.setStartDate(LocalDate.of(2018, 10, 01));
 		block.setEndDate(LocalDate.of(2018, 10, 30));
-		block.setSessionDays(22);
+//		block.setSessionDays(22);
 		block.getSectionList().add(section);
 		facultyRepository.save(faculty);
 		blockRepository.save(block);
