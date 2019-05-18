@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.students.mum.domain.AggregatingTaskDate;
 import com.students.mum.domain.Block;
 import com.students.mum.domain.BlockStudentStatistics;
 import com.students.mum.domain.Entry;
@@ -70,6 +71,10 @@ public class AggregatingService {
 		if (recordsForDay.size() == 0) {
 			log.info("There are not any data for {}!", date);
 		}
+		AggregatingTaskDate aggregatingTaskDate = new AggregatingTaskDate();
+		aggregatingTaskDate.setDate(date);
+		aggregatingTaskDate.setProcessedRecord(recordsForDay.size());
+		aggregatingTaskDateRepository.save(aggregatingTaskDate);
 		Set<String> studentMedRecordSet = recordsForDay.stream().map(r -> r.getStudent().getNumber())
 				.collect(Collectors.toSet());
 		aggregateEntry(studentMedRecordSet);
