@@ -24,6 +24,7 @@ public class Student {
 	@Column(unique = true)
 	private String barcode;
 
+	private String name;
 	@OneToOne(cascade = CascadeType.ALL)
 	private LoginUser loginUser;
 
