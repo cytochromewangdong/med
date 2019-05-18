@@ -1,11 +1,15 @@
 package com.students.mum.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Data
-public class EntryReport {
+public class GroupReport {
 	@NotNull
-	private Long entryId;
+	private Long groupId;
+	
+	private List<ReportRow> data;
 }

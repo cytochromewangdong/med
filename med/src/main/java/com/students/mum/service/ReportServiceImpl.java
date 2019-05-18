@@ -13,14 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.students.mum.domain.Block;
+import com.students.mum.domain.Entry;
 import com.students.mum.domain.ExcludedDate;
 import com.students.mum.domain.MeditationRecord;
 import com.students.mum.domain.Student;
 import com.students.mum.domain.TmCheckRetreat;
 import com.students.mum.domain.TmCheckRetreat.CheckRetreatType;
+import com.students.mum.dto.GroupReport;
+import com.students.mum.dto.ReportRow;
 import com.students.mum.dto.StudentDetailReport;
 import com.students.mum.dto.StudentDetailReport.MeditationResult;
 import com.students.mum.repository.BlockRepository;
+import com.students.mum.repository.EntryRepository;
 import com.students.mum.repository.ExcludedDateRepository;
 import com.students.mum.repository.StudentRepository;
 
@@ -36,17 +40,21 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private ExcludedDateRepository excludedDateRepository;
 
-	public StudentDetailReport summaryStudentDetailReport(StudentDetailReport report) {
+	@Autowired
+	private EntryRepository entryRepository;
 
-		Student stu = studentRepository.getOne(report.getStudentNum());
-		report.setRetreatList(stu.getTmCheckRetreatList().stream().filter(t -> t.getType() == CheckRetreatType.retreat)
-				.map(TmCheckRetreat::getDate).collect(Collectors.toList()));
-		report.setCheckList(stu.getTmCheckRetreatList().stream().filter(t -> t.getType() == CheckRetreatType.check)
+	public StudentDetailReport summaryStudentDetailReport(StudentDetailReport reportParam) {
+
+		Student stu = studentRepository.getOne(reportParam.getStudentNum());
+		reportParam.setRetreatList(
+				stu.getTmCheckRetreatList().stream().filter(t -> t.getType() == CheckRetreatType.retreat)
+						.map(TmCheckRetreat::getDate).collect(Collectors.toList()));
+		reportParam.setCheckList(stu.getTmCheckRetreatList().stream().filter(t -> t.getType() == CheckRetreatType.check)
 				.map(TmCheckRetreat::getDate).collect(Collectors.toList()));
 
-		if (report.getBlockId() != null) {
-			Block block = blockRepository.getOne(report.getBlockId());
-			report.setBlockSessionSize(countAvailableSessionDays(block.getStartDate(), block.getEndDate()));
+		if (reportParam.getBlockId() != null) {
+			Block block = blockRepository.getOne(reportParam.getBlockId());
+			reportParam.setBlockSessionSize(countAvailableSessionDays(block.getStartDate(), block.getEndDate()));
 			LocalDate startDateExcluding = block.getStartDate().minusDays(1);
 			LocalDate endDateExcluding = block.getEndDate().plusDays(1);
 			// MeditationResult
@@ -54,11 +62,11 @@ public class ReportServiceImpl implements ReportService {
 			Set<LocalDate> medRecordDateSet = medRecord.stream()
 					.filter(r -> r.getDate().isAfter(startDateExcluding) && r.getDate().isBefore(endDateExcluding))
 					.sorted().map(MeditationRecord::getDate).collect(Collectors.toSet());
-			report.setMeditationBlockCount(medRecordDateSet.size());
+			reportParam.setMeditationBlockCount(medRecordDateSet.size());
 
-			report.setRecordListForBlock(makeList(block.getStartDate(), block.getEndDate(), medRecordDateSet));
+			reportParam.setRecordListForBlock(makeList(block.getStartDate(), block.getEndDate(), medRecordDateSet));
 		}
-		return report;
+		return reportParam;
 	}
 
 	private int countAvailableSessionDays(LocalDate startDate, LocalDate endDate) {
@@ -68,7 +76,6 @@ public class ReportServiceImpl implements ReportService {
 				.collect(Collectors.toSet());
 		while (currentDate.compareTo(endDate) <= 0) {
 			if (currentDate.getDayOfWeek() != DayOfWeek.SUNDAY && !execludedSet.contains(currentDate)) {
-
 				count++;
 			}
 			currentDate = currentDate.plusDays(1);
@@ -84,5 +91,47 @@ public class ReportServiceImpl implements ReportService {
 			currentDate = currentDate.plusDays(1);
 		}
 		return result;
+	}
+
+	@Override
+	public GroupReport summaryEntryReport(GroupReport reportParam) {
+		Entry entry = entryRepository.getOne(reportParam.getGroupId());
+		int count = this.countAvailableSessionDays(entry.getMeditationStartDate(), LocalDate.now());
+		reportParam.setData(entry.getEntryStudentStatisticsList().stream().map(s -> {
+			ReportRow row = new ReportRow();
+			row.setStudentName(s.getStudent().getName());
+			row.setStudentNumber(s.getStudent().getNumber());
+			row.setPresent(s.getRealMeditation());
+			row.setPossible(count);
+			row.setPercent(Math.round((row.getPresent() * 1000 / (double) count)) / 10.0);
+			return row;
+		}).collect(Collectors.toList()));
+		return reportParam;
+	}
+
+	@Override
+	public GroupReport summaryBlockReport(GroupReport reportParam) {
+		Block entry = blockRepository.getOne(reportParam.getGroupId());
+		int count = this.countAvailableSessionDays(entry.getStartDate(), entry.getEndDate());
+		reportParam.setData(entry.getBlockStudentStatisticsList().stream().map(s -> {
+			ReportRow row = new ReportRow();
+			row.setStudentName(s.getStudent().getName());
+			row.setStudentNumber(s.getStudent().getNumber());
+			row.setPresent(s.getMedBlockCount());
+			row.setPossible(count);
+			row.setPercent(Math.round((row.getPresent() * 1000 / (double) count)) / 10.0);
+			// 70%andabove: .5%EC(16daysinastandardblock)
+			// 80%andabove: 1%EC(18days inastandardblock)
+			// 90% and above: 1.5% EC (20 days in a standard block)
+			double[] scoreList = new double[10];
+			scoreList[7] = 0.5;
+			scoreList[8] = 1;
+			scoreList[9] = 1.5;
+			int index = ((int) row.getPercent()) / 10;
+			index = Math.min(index, 9);
+			row.setScore(scoreList[index]);
+			return row;
+		}).collect(Collectors.toList()));
+		return reportParam;
 	}
 }

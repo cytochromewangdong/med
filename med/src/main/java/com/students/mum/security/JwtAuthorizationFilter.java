@@ -53,6 +53,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private String getCookieToken(HttpServletRequest request) {
 		String token = null;
+		if(request.getCookies() == null)
+		{
+			return null;
+		}
 		for (Cookie c : request.getCookies()) {
 			if (SecurityConstants.TOKEN_COOKIE_NAME.equals(c.getName())) {
 				token = c.getValue();
