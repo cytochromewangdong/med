@@ -113,8 +113,8 @@ public class HandlerOne {
 		Course c4 = createCourse("Algorithm", "CS472", 4);
 
 		Block b1 = createBlock(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 1, 25));
-		Block b2 = createBlock(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 1, 25));
-
+		Block b2 = createBlock(LocalDate.of(2019, 2, 1), LocalDate.of(2019, 2, 25));
+		Block b3 = createBlock(LocalDate.of(2019, 4, 1), LocalDate.of(2019, 4, 25));
 //		LoginUser user = new LoginUser();
 //		user.setUsername("123");
 //		user.setPassword("123");
