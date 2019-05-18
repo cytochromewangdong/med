@@ -22,9 +22,6 @@ import lombok.Setter;
 @Entity
 // @BlockDate(min = 5, maximum = 50)
 public class Block extends DefaultPrimaryKeyEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
 
 	// @NotNull
 	@DateTimeFormat(pattern = "MM/dd/yyyy")

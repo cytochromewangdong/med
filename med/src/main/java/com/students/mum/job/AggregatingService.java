@@ -74,6 +74,10 @@ public class AggregatingService {
 				.collect(Collectors.toSet());
 		aggregateEntry(studentMedRecordSet);
 
+		aggregateBlock(date, studentMedRecordSet);
+	}
+
+	private void aggregateBlock(LocalDate date, Set<String> studentMedRecordSet) {
 		Optional<Block> optBlock = blockRepository.findCurrentBlock(date);
 		if (!optBlock.isPresent()) {
 			log.info("There is not any block for {}, no need to do statistics!", date);
