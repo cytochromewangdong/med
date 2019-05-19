@@ -1,18 +1,23 @@
 package com.students.mum.service;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.students.mum.domain.MeditationImportFile;
 import com.students.mum.domain.Student;
 import com.students.mum.domain.TmCheckRetreat;
-import com.students.mum.domain.TmCheckRetreat.CheckRetreatType;
 import com.students.mum.dto.TmCheckRetreatDto;
+import com.students.mum.dto.UploadMed;
+import com.students.mum.repository.MeditationImportFileRepository;
 import com.students.mum.repository.StudentRepository;
 import com.students.mum.repository.TmCheckRetreatRepository;
 
@@ -25,6 +30,15 @@ public class TmCheckRetreatService {
 
 	@Autowired
 	private StudentRepository studentRepository;
+
+	private final File UPLOAD_DIR = new File(System.getProperty("user.dir"),"data");
+
+	@PostConstruct
+	void init() {
+		if (!UPLOAD_DIR.exists()) {
+			UPLOAD_DIR.mkdirs();
+		}
+	}
 
 	public TmCheckRetreat saveTmCheckRetreat(TmCheckRetreatDto dto) {
 		TmCheckRetreat tmCheckRetreat = dto.getId() == null ? new TmCheckRetreat()
@@ -55,5 +69,25 @@ public class TmCheckRetreatService {
 		return !studentRepository.getOne(dto.getStudent().getNumber()).getTmCheckRetreatList().stream()
 				.filter(tm -> !tm.getId().equals(dto.getId()) && tm.getDate().equals(dto.getDate())).findAny()
 				.isPresent();
+	}
+
+	@Autowired
+	private MeditationImportFileRepository meditationImportFileRepository;
+
+	public void uploadMedDataFileService(UploadMed upload) {
+		File dataFile = new File(UPLOAD_DIR, UUID.randomUUID().toString());
+		try {
+			upload.getDataFile().transferTo(dataFile);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		MeditationImportFile file = new MeditationImportFile();
+		file.setFileName(dataFile.getAbsolutePath());
+		file.setType(upload.getType());
+		file.setCreateDate(LocalDateTime.now());
+		meditationImportFileRepository.save(file);
+	}
+	public List<MeditationImportFile> getMeditationImportFileList(){
+		return meditationImportFileRepository.findAll();
 	}
 }

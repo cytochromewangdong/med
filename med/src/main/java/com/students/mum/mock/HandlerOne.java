@@ -86,19 +86,19 @@ public class HandlerOne {
 //		sectionRepository.save(section);
 
 		// 1,10/13/18,EAM,DB
-		MeditationImportFile importFile = new MeditationImportFile();
-		importFile.setFileName("test.data");
-		importFile.setType(MeditationImportFileType.scan);
-
-		MeditationImportFile importFile2 = new MeditationImportFile();
-		importFile2.setFileName("test2.data");
-		importFile2.setType(MeditationImportFileType.mannually);
-		meditationImportFileRepository.save(importFile);
-		importFile = new MeditationImportFile();
-		importFile.setFileName("test.data");
-		importFile.setType(MeditationImportFileType.scan);
-		meditationImportFileRepository.save(importFile);
-		meditationImportFileRepository.save(importFile2);
+//		MeditationImportFile importFile = new MeditationImportFile();
+//		importFile.setFileName("test.data");
+//		importFile.setType(MeditationImportFileType.scan);
+//
+//		MeditationImportFile importFile2 = new MeditationImportFile();
+//		importFile2.setFileName("test2.data");
+//		importFile2.setType(MeditationImportFileType.mannually);
+//		meditationImportFileRepository.save(importFile);
+//		importFile = new MeditationImportFile();
+//		importFile.setFileName("test.data");
+//		importFile.setType(MeditationImportFileType.scan);
+//		meditationImportFileRepository.save(importFile);
+//		meditationImportFileRepository.save(importFile2);
 	}
 
 	public void handleAll() {

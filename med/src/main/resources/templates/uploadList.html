@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<body>
+	<div layout:fragment="app-content">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>FileName</td>
+					<td>Upload Date</td>
+					<td>Processing status</td>
+					<td>Any Error</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${uploadList.empty}">
+					<td colspan="5">No upload List</td>
+				</tr>
+				<tr th:each="upload : ${uploadList}">
+					<td th:text="${upload.id}">1</td>
+					<td th:text="${upload.fileName}"></td>
+					<td th:text="${upload.createDate}">July 11,
+						2017 CDT</td>
+					<td th:text="${upload.finished}?'Finished':'Processing...'"></td>
+					<td th:text="${upload.failureReason}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

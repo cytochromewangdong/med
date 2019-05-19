@@ -1,0 +1,64 @@
+body {
+	font-family: sans;
+	font-size: 1em;
+}
+
+p.error {
+	font-weight: bold;
+	color: red;
+}
+
+div.logout {
+	float: right;
+}
+
+.admin-message-text {
+	font-style: normal;
+	font-size: 22px;
+	color: #004080;
+}
+
+.wrapper {
+	margin-top: 80px;
+	margin-bottom: 20px;
+}
+
+.form-signin {
+	max-width: 420px;
+	padding: 30px 38px 66px;
+	margin: 0 auto;
+	width: 412px;
+	background-color: #f3f3f3;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+}
+
+.form-signin-heading {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.form-control {
+	position: relative;
+	font-size: 16px;
+	height: auto;
+	padding: 10px;
+}
+
+input[type="text"] {
+	margin-bottom: 0px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+input[type="password"] {
+	margin-bottom: 20px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.validation-message {
+	font-style: normal;
+	font-size: 12px;
+	color: #FF1C19;
+}

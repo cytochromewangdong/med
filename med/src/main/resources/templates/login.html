@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Med System Login</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/css/main.css}" />
+
+</head>
+
+<body>
+
+	<div class="container">
+		<form th:action="@{/login}" method="POST" class="form-signin">
+			<h1 class="h3 mb-3 font-weight-normal" style="text-align: center">
+				Sign in</h1>
+			<br /> <input type="text" id="username" name="username"
+				placeholder="User Name" class="form-control" autofocus="" /> <br />
+			<input type="password" placeholder="Password" id="password"
+				name="password" class="form-control" /> <br />
+
+			<div align="center" th:if="${loginError}">
+				<p style="font-size: 20; color: #FF1C19;">Email or Password
+					invalid, please verify</p>
+			</div>
+			<input type="checkbox" name="remember-me" /> Remember Me?<br />
+			<button class="btn btn-lg btn-primary btn-block" name="Submit"
+				value="Login" type="Submit">
+				<span class="glyphicon glyphicon-cloud"></span> Login
+			</button>
+		</form>
+	</div>
+</body>
+</html>

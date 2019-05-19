@@ -1,5 +1,7 @@
 package com.students.mum.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Version;
 
@@ -30,4 +32,5 @@ public class MeditationImportFile extends DefaultPrimaryKeyEntity {
 	
 	private String failureReason;
 
+	private LocalDateTime createDate;
 }

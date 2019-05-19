@@ -1,6 +1,7 @@
 package com.students.mum.security;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import io.jsonwebtoken.Claims;
@@ -53,8 +55,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private String getCookieToken(HttpServletRequest request) {
 		String token = null;
-		if(request.getCookies() == null)
-		{
+		if (request.getCookies() == null) {
 			return null;
 		}
 		for (Cookie c : request.getCookies()) {
@@ -77,9 +78,54 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 				List<GrantedAuthority> authorities = ((List<?>) parsedToken.getBody().get("rol")).stream()
 						.map(authority -> new SimpleGrantedAuthority((String) authority)).collect(Collectors.toList());
-
+//				authorities.add(new SimpleGrantedAuthority("ROLE_FUCK"));
 				if (StringUtils.isNotEmpty(username)) {
-					return new UsernamePasswordAuthenticationToken(username, null, authorities);
+
+					return new UsernamePasswordAuthenticationToken(new UserDetails() {
+
+						/**
+						 * 
+						 */
+						private static final long serialVersionUID = 4144078882077666890L;
+
+						@Override
+						public Collection<? extends GrantedAuthority> getAuthorities() {
+							return authorities;
+						}
+
+						@Override
+						public String getPassword() {
+							return null;
+						}
+
+						@Override
+						public String getUsername() {
+							return username;
+						}
+
+						@Override
+						public boolean isAccountNonExpired() {
+
+							return true;
+						}
+
+						@Override
+						public boolean isAccountNonLocked() {
+
+							return true;
+						}
+
+						@Override
+						public boolean isCredentialsNonExpired() {
+							return true;
+						}
+
+						@Override
+						public boolean isEnabled() {
+							return true;
+						}
+
+					}, null, authorities);
 				}
 			} catch (ExpiredJwtException exception) {
 				log.warn("Request to parse expired JWT : {} failed : {}", token, exception.getMessage());

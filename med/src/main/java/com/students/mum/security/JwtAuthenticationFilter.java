@@ -1,10 +1,12 @@
 package com.students.mum.security;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.Assert;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,7 +32,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 
-//		setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
+		// setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
 	}
 
 	@Override
@@ -42,9 +46,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		return authenticationManager.authenticate(authenticationToken);
 	}
 
+	public void setAuthenticationFailureHandler(AuthenticationFailureHandler failureHandler) {
+		Assert.notNull(failureHandler, "failureHandler cannot be null");
+		super.setAuthenticationFailureHandler(failureHandler);
+	}
+
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-			FilterChain filterChain, Authentication authentication) {
+			FilterChain filterChain, Authentication authentication) throws IOException, ServletException {
 		User user = ((User) authentication.getPrincipal());
 
 		List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
@@ -64,6 +73,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		cookie.setHttpOnly(true);
 		cookie.setMaxAge((int) (SecurityConstants.EXPIRE_TIME / 1000));
 		response.addCookie(cookie);
+		super.successfulAuthentication(request, response, filterChain, authentication);
 
 	}
 }
