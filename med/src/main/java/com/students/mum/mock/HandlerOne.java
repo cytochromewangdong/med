@@ -134,7 +134,7 @@ public class HandlerOne {
 //
 //		courseRepository.saveAll(sourseList);
 
-		Student s1 = createStudent("1001", "9001", "Balindra Rayamajhi", student);
+		Student s1 = createStudent("1001", "9001", "Balindra Rayamajhi", student,admin);
 		Student s2 = createStudent("1002", "9002", "Dong  Wang", student);
 		Student s3 = createStudent("1003", "9003", "Brhane Gerbreweld", student);
 		Student s4 = createStudent("1004", "9004", "Robel Gebreweld", student);
@@ -156,7 +156,7 @@ public class HandlerOne {
 		mockBlockData();
 	}
 
-	private Student createStudent(String number, String barcode, String name, Role studentRole) {
+	private Student createStudent(String number, String barcode, String name, Role... studentRole) {
 		Student student = new Student();
 		student.setNumber(number);
 		student.setBarcode(barcode);
@@ -164,9 +164,10 @@ public class HandlerOne {
 		LoginUser user2 = new LoginUser();
 		user2.setUsername(student.getNumber());
 		user2.setPassword(bCryptPasswordEncoder.encode("2"));
-		user2.getRoles().add(studentRole);
+		user2.getRoles().addAll(Arrays.asList(studentRole));
 		student = studentRepository.save(student);
 		student.setLoginUser(user2);
+		user2.setTag(student.getNumber());
 		return student;
 
 	}

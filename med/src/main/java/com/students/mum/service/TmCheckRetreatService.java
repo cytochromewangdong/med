@@ -31,7 +31,7 @@ public class TmCheckRetreatService {
 	@Autowired
 	private StudentRepository studentRepository;
 
-	private final File UPLOAD_DIR = new File(System.getProperty("user.dir"),"data");
+	private final File UPLOAD_DIR = new File(System.getProperty("user.dir"), "data");
 
 	@PostConstruct
 	void init() {
@@ -57,8 +57,9 @@ public class TmCheckRetreatService {
 
 	public void removeTmCheckRetreat(long id) {
 		TmCheckRetreat tmCheckRetreat = tmCheckRetreatRepository.getOne(id);
-		tmCheckRetreat.setStudent(null);
 		tmCheckRetreat.getStudent().getTmCheckRetreatList().remove(tmCheckRetreat);
+		tmCheckRetreat.setStudent(null);
+		tmCheckRetreatRepository.delete(tmCheckRetreat);
 	}
 
 	public List<TmCheckRetreat> findTmCheckRetreatByDate(LocalDate startDate, LocalDate endDate) {
@@ -66,6 +67,9 @@ public class TmCheckRetreatService {
 	}
 
 	public boolean checkDuplicate(TmCheckRetreatDto dto) {
+		if (dto.getStudent() == null) {
+			return true;
+		}
 		return !studentRepository.getOne(dto.getStudent().getNumber()).getTmCheckRetreatList().stream()
 				.filter(tm -> !tm.getId().equals(dto.getId()) && tm.getDate().equals(dto.getDate())).findAny()
 				.isPresent();
@@ -87,7 +91,8 @@ public class TmCheckRetreatService {
 		file.setCreateDate(LocalDateTime.now());
 		meditationImportFileRepository.save(file);
 	}
-	public List<MeditationImportFile> getMeditationImportFileList(){
+
+	public List<MeditationImportFile> getMeditationImportFileList() {
 		return meditationImportFileRepository.findAll();
 	}
 }

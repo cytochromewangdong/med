@@ -5,10 +5,18 @@
 
 <body>
 	<div layout:fragment="app-content">
-		<fieldset>
-			<legend>Meditation File Upload</legend>
-			<form th:object="${uploadMed}" method="POST"
-				enctype="multipart/form-data">
+		<ul class="nav nav-tabs">
+			<li class="nav-item"><a class="nav-link"
+				th:href="@{/tm/uploadList/}">UpLoad List</a></li>
+			<li class="nav-item"><a class="nav-link active" href="#">Import
+					Data</a></li>
+		</ul>
+		<form th:object="${uploadMed}" method="POST"
+			enctype="multipart/form-data">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" />
+			<fieldset>
+				<legend>Meditation File Upload</legend>
 				<div class="form-group">
 					<div class="form-check form-check-inline"
 						th:each="val:${T(com.students.mum.domain.MeditationImportFile.MeditationImportFileType).values()}">
@@ -29,8 +37,9 @@
 				</div>
 
 				<button type="submit" class="btn btn-primary">Upload File</button>
-			</form>
-		</fieldset>
+			</fieldset>
+		</form>
+
 	</div>
 </body>
 </html>

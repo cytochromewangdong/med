@@ -78,10 +78,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 				List<GrantedAuthority> authorities = ((List<?>) parsedToken.getBody().get("rol")).stream()
 						.map(authority -> new SimpleGrantedAuthority((String) authority)).collect(Collectors.toList());
+				String tag = (String) parsedToken.getBody().get("tag");
 //				authorities.add(new SimpleGrantedAuthority("ROLE_FUCK"));
 				if (StringUtils.isNotEmpty(username)) {
 
-					return new UsernamePasswordAuthenticationToken(new UserDetails() {
+					return new UsernamePasswordAuthenticationToken(new UserDetailAndTag() {
 
 						/**
 						 * 
@@ -123,6 +124,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 						@Override
 						public boolean isEnabled() {
 							return true;
+						}
+
+						@Override
+						public String getTag() {
+							return tag;
 						}
 
 					}, null, authorities);

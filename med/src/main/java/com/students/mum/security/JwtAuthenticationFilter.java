@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			FilterChain filterChain, Authentication authentication) throws IOException, ServletException {
-		User user = ((User) authentication.getPrincipal());
+		UserWithTag user = ((UserWithTag) authentication.getPrincipal());
 
 		List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.setHeaderParam("typ", SecurityConstants.TOKEN_TYPE).setIssuer(SecurityConstants.TOKEN_ISSUER)
 				.setAudience(SecurityConstants.TOKEN_AUDIENCE).setSubject(user.getUsername())
 				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRE_TIME)).claim("rol", roles)
-				.compact();
+				.claim("tag", user.getTag()).compact();
 
 		// response.addHeader(SecurityConstants, SecurityConstants.TOKEN_PREFIX +
 		// token);

@@ -38,7 +38,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addFormatter(courseFormatter);
 		registry.addFormatter(studentFormatter);
-		registry.addConverter(studentFormatter);
+//		registry.addConverter(studentFormatter);
 		registry.addFormatter(professorFormatter);
 	}
 

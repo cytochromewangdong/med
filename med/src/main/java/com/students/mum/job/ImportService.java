@@ -66,7 +66,7 @@ public class ImportService {
 	private DateTimeFormatter scanDateFormatter = DateTimeFormatter.ofPattern("MM/dd/yy");
 
 	private DateTimeFormatter manuallyDateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-	
+
 	public void importData(MeditationImportFile importFile) {
 
 		Map<String, String> stuMapper = studentMapper();
@@ -75,7 +75,7 @@ public class ImportService {
 			int finishedLine = importFile.getCurrentLine();
 			int currentLine = 0;
 			Set<LocalDate> dateSet = new HashSet<>();
-			Map<String,MeditationTransitionRecord> basket = new HashMap<>();
+			Map<String, MeditationTransitionRecord> basket = new HashMap<>();
 			// date = LocalDate.parse("27/09/2015", scanDateFormatter);
 			boolean finished = true;
 			while (scanner.hasNextLine()) {
@@ -101,7 +101,8 @@ public class ImportService {
 					MeditationTransitionRecord transitionRecord = new MeditationTransitionRecord();
 					transitionRecord.setDate(date);
 					transitionRecord.setStudentId(stdId);
-					basket.put(combinateKey(transitionRecord.getStudentId(), transitionRecord.getDate()), transitionRecord);
+					basket.put(combinateKey(transitionRecord.getStudentId(), transitionRecord.getDate()),
+							transitionRecord);
 					dateSet.add(date);
 
 					// MeditationRecord record = new MeditationRecord();
@@ -119,7 +120,8 @@ public class ImportService {
 					MeditationTransitionRecord transitionRecord = new MeditationTransitionRecord();
 					transitionRecord.setDate(date);
 					transitionRecord.setStudentId(column[1].trim());
-					basket.put(combinateKey(transitionRecord.getStudentId(), transitionRecord.getDate()), transitionRecord);
+					basket.put(combinateKey(transitionRecord.getStudentId(), transitionRecord.getDate()),
+							transitionRecord);
 					dateSet.add(date);
 				}
 				if (basket.size() > 1000) {
@@ -129,21 +131,21 @@ public class ImportService {
 			}
 			Set<String> existingSet = getExistingMedidationData(dateSet);
 			basket.values().forEach(transitionRecord -> {
-				//Check duplication
+				// Check duplication
 				if (!existingSet.contains(combinateKey(transitionRecord.getStudentId(), transitionRecord.getDate()))) {
-					 MeditationRecord record = new MeditationRecord();
-					 record.setDate(transitionRecord.getDate());
-					 Student student = studentRepository.getOne(transitionRecord.getStudentId());
-					 record.setStudent(student);
-					 student.getMeditationRecordList().add(record);
-					 meditationRecordRepository.save(record);
+					MeditationRecord record = new MeditationRecord();
+					record.setDate(transitionRecord.getDate());
+					Student student = studentRepository.getOne(transitionRecord.getStudentId());
+					record.setStudent(student);
+					student.getMeditationRecordList().add(record);
+					meditationRecordRepository.save(record);
 				}
 			});
 			importFile.setFinished(finished);
 			importFile.setCurrentLine(currentLine);
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			importFile.setFinished(true);
-			importFile.setFailureReason(e.getMessage());
+			importFile.setFailureReason("File format is not correct:" + e.getMessage());
 			e.printStackTrace();
 		}
 

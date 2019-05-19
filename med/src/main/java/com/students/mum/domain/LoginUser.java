@@ -23,8 +23,8 @@ public class LoginUser {
 	private String username;
 	private String password;
 
+	private String tag;
 	@ManyToMany
 	private List<Role> roles = new ArrayList<>();
-	
-	
+
 }

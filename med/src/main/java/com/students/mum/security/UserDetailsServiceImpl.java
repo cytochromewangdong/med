@@ -4,7 +4,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (loginUser == null) {
 			throw new UsernameNotFoundException(username);
 		}
-		return new User(loginUser.getUsername(), loginUser.getPassword(), loginUser.getRoles().stream()
-				.map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toList()));
+		return new UserWithTag(
+				loginUser.getUsername(), loginUser.getPassword(), loginUser.getRoles().stream()
+						.map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toList()),
+				loginUser.getTag());
 	}
 }

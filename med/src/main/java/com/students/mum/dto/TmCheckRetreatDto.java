@@ -3,6 +3,7 @@ package com.students.mum.dto;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,13 +19,15 @@ import lombok.Data;
 public class TmCheckRetreatDto {
 	private Long id;
 	@NotNull
-	@JsonFormat(pattern = "MM/dd/yyyy")
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@PastOrPresent
 	private LocalDate date;
 	// @NotNull
 	// private String studentNo;
 	@NotNull
 	private CheckRetreatType type;
 	@NotNull
+//	@StudentId
 	private Student student;
 }

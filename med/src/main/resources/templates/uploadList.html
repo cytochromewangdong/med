@@ -5,6 +5,11 @@
 
 <body>
 	<div layout:fragment="app-content">
+		<ul class="nav nav-tabs">
+			<li class="nav-item"><a class="nav-link active" href="#">UpLoad List</a>
+			</li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/tm/updIndex/}">Import Data</a></li>
+		</ul>
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
@@ -22,8 +27,7 @@
 				<tr th:each="upload : ${uploadList}">
 					<td th:text="${upload.id}">1</td>
 					<td th:text="${upload.fileName}"></td>
-					<td th:text="${upload.createDate}">July 11,
-						2017 CDT</td>
+					<td th:text="${upload.createDate}">July 11, 2017 CDT</td>
 					<td th:text="${upload.finished}?'Finished':'Processing...'"></td>
 					<td th:text="${upload.failureReason}"></td>
 				</tr>

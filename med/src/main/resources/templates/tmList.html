@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<body>
+
+	<!--/* Insert content fragment with content of the element with id = 'task-details' */-->
+	<div layout:fragment="app-content">
+		<ul class="nav nav-tabs">
+			<li class="nav-item"><a class="nav-link active" href="#">retreat/checkout
+					List</a></li>
+			<li class="nav-item"><a class="nav-link"
+				th:href="@{/tm/retreatCreate/}">Create retreat/checkout</a></li>
+		</ul>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>Type</td>
+					<td>Student</td>
+					<td>Date</td>
+					<td>Operations</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${list.empty}">
+					<td colspan="4">No upload List</td>
+				</tr>
+				<tr th:each="record : ${list}">
+					<td th:text="${record.id}">1</td>
+					<td th:text="${record.type}"></td>
+					<td
+						th:text="${record.student.name} + ' ('+${record.student.number}+')'"></td>
+					<td th:text="${record.date}"></td>
+					<td><form method="POST" th:action="@{/tm/retreatDelete}">
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}" /> <input type="hidden"
+								th:name = "id"
+								th:value="${record.id}" />
+							<button class="btn btn-lg btn-primary btn-block" type="Submit">Delete
+							</button>
+						</form></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>
