@@ -24,7 +24,10 @@ public class StudentDetailReport {
 	private String studentNum;
 	private Long blockId;
 	private List<MeditationResult> recordListForBlock = new ArrayList<>();
-	private int meditationBlockCount = 0;
+	private double percent;
+	private int possible;
+	private double score;
+	private int present = 0;
 	private int blockSessionSize;
 	private List<LocalDate> retreatList = new ArrayList<>();
 	private List<LocalDate> checkList = new ArrayList<>();

@@ -13,8 +13,6 @@
 		</ul>
 		<form th:object="${uploadMed}" method="POST"
 			enctype="multipart/form-data">
-			<input type="hidden" th:name="${_csrf.parameterName}"
-				th:value="${_csrf.token}" />
 			<fieldset>
 				<legend>Meditation File Upload</legend>
 				<div class="form-group">

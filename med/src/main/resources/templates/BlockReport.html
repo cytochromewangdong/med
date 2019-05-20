@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<body>
+
+	<!--/* Insert content fragment with content of the element with id = 'task-details' */-->
+	<div layout:fragment="app-content">
+		<h1>Entry Report</h1>
+		<form method="GET" th:object="${report}" id="groupForm">
+			<select th:field="*{groupId}" id="groupSelect">
+				<option value="">--</option>
+				<option th:each="section : ${sectionList}" th:value="${section.blockId}"
+					th:text="${section.combinName}">bname</option>
+			</select>
+		</form>
+		<button th:if="${report.groupId!=null}"
+			class="btn btn-lg btn-primary btn-block" name="export" id="export">export
+		</button>
+		<table class="table table-bordered table-striped"
+			th:if="${report.groupId!=null}" id="dataSource">
+			<thead>
+				<tr>
+					<td>Student Number</td>
+					<td>Student Name</td>
+					<td>present</td>
+					<td>possible</td>
+					<td>percent</td>
+					<td>score</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${report.data.empty}">
+					<td colspan="6">No Entry Report</td>
+				</tr>
+				<tr th:each="record : ${report.data}">
+					<td th:text="${record.studentNumber}">1</td>
+					<td th:text="${record.studentName}">1</td>
+					<td th:text="${record.present}">1</td>
+					<td th:text="${record.possible}">1</td>
+					<td th:text="${record.percent}">1</td>
+					<td th:text="${record.score}">1</td>
+				</tr>
+			</tbody>
+
+		</table>
+		<script>
+			$(function() {
+				$("#groupSelect").change(function() {
+					$('#groupForm').submit();
+				})
+			})
+		</script>
+	</div>
+</body>
+</html>

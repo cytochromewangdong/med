@@ -46,6 +46,19 @@
 		<button th:if="${!report.recordListForBlock.empty}"
 			class="btn btn-lg btn-primary btn-block" name="export" id="export">export
 		</button>
+		<div th:if="${!report.recordListForBlock.empty}" style="margin-top:3px;margin-bottom:3px">
+			<div class="row">
+				<span class="col-sm-2"> Overall:</span> <span class="col-sm-3"><span
+					th:text="${report.present}"></span>/<span
+					th:text="${report.possible}"></span></span>
+
+			</div>
+			<div class="row">
+				<span class="col-sm-2">Rational:</span><span class="col-sm-3"
+					th:text="${report.percent}+'%'"></span> <span class="col-sm-2">Score:</span><span
+					class="col-sm-3" th:text="${report.score}"></span>
+			</div>
+		</div>
 		<table class="table table-bordered table-striped"
 			th:if="${report.blockId!=null}" id="dataSource">
 			<tbody>
@@ -59,21 +72,6 @@
 			</tbody>
 		</table>
 		<script>
-			function save(filename, data) {
-				var blob = new Blob([ data ], {
-					type : 'text/csv'
-				});
-				if (window.navigator.msSaveOrOpenBlob) {
-					window.navigator.msSaveBlob(blob, filename);
-				} else {
-					var elem = window.document.createElement('a');
-					elem.href = window.URL.createObjectURL(blob);
-					elem.download = filename;
-					document.body.appendChild(elem);
-					elem.click();
-					document.body.removeChild(elem);
-				}
-			}
 			$(function() {
 				$("#blockSelect").change(function() {
 					$('#blockForm').submit();

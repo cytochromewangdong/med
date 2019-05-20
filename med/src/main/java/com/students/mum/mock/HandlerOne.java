@@ -12,16 +12,16 @@ import org.springframework.stereotype.Service;
 
 import com.students.mum.domain.Block;
 import com.students.mum.domain.Course;
+import com.students.mum.domain.Entry;
 import com.students.mum.domain.Faculty;
 import com.students.mum.domain.Faculty.FacultyType;
 import com.students.mum.domain.LoginUser;
-import com.students.mum.domain.MeditationImportFile;
-import com.students.mum.domain.MeditationImportFile.MeditationImportFileType;
 import com.students.mum.domain.Role;
 import com.students.mum.domain.Section;
 import com.students.mum.domain.Student;
 import com.students.mum.repository.BlockRepository;
 import com.students.mum.repository.CourseRepository;
+import com.students.mum.repository.EntryRepository;
 import com.students.mum.repository.FacultyRepository;
 import com.students.mum.repository.MeditationImportFileRepository;
 import com.students.mum.repository.RoleRepository;
@@ -41,6 +41,8 @@ public class HandlerOne {
 
 	@Autowired
 	private CourseRepository courseRepository;
+	@Autowired
+	private EntryRepository entryRepository;
 	@Autowired
 	private FacultyRepository facultyRepository;
 	@Autowired
@@ -134,7 +136,7 @@ public class HandlerOne {
 		//
 		// courseRepository.saveAll(sourseList);
 
-		Student s1 = createStudent("1001", "9001", "Balindra Rayamajhi", student, admin);
+		Student s1 = createStudent("1001", "9001", "Balindra Rayamajhi", student);
 		Student s2 = createStudent("1002", "9002", "Dong  Wang", student);
 		Student s3 = createStudent("1003", "9003", "Brhane Gerbreweld", student);
 		Student s4 = createStudent("1004", "9004", "Robel Gebreweld", student);
@@ -146,13 +148,23 @@ public class HandlerOne {
 		Student s10 = createStudent("1010", "9010", "asdhji", student);
 		Student s11 = createStudent("1011", "9011", "uirest", student);
 
-		Faculty f1 = createFaculty("Rujian Xing", FacultyType.professor);
-		Faculty f2 = createFaculty("Paul Corozza", FacultyType.professor);
-		Faculty f3 = createFaculty("Greg Guthire", FacultyType.professor);
+		Faculty f1 = createFaculty("Rujian Xing", "tina", FacultyType.professor, faculty);
+		Faculty f2 = createFaculty("Paul Corozza", "paul", FacultyType.professor, faculty);
+		Faculty f3 = createFaculty("Greg Guthire", "geek", FacultyType.professor, admin);
 
 		Section sec1 = createSection(b1, c1, f1, Arrays.asList(s1, s2, s3));
 		Section sec2 = createSection(b1, c2, f2, Arrays.asList(s4, s5, s6));
+		Section sec3 = createSection(b2, c1, f1, Arrays.asList(s1, s2, s3));
+		Section sec4 = createSection(b2, c2, f2, Arrays.asList(s4, s5, s6));
+		Section sec5 = createSection(b3, c1, f1, Arrays.asList(s1, s2, s3));
+		Section sec6 = createSection(b3, c2, f2, Arrays.asList(s4, s5, s6));
+		Entry entry = new Entry();
+		entry.setName("2019FebEntry");
+		entry.setMeditationStartDate(LocalDate.of(2019, 2, 15));
+		entry.setStudentList(Arrays.asList(s1, s2, s3, s4, s5, s6));
 
+		entryRepository.save(entry);
+		Arrays.asList(s1, s2, s3, s4, s5, s6).forEach(s -> s.setEntry(entry));
 		mockBlockData();
 	}
 
@@ -172,17 +184,20 @@ public class HandlerOne {
 
 	}
 
-	private Faculty createFaculty(String name, FacultyType type) {
+	private Faculty createFaculty(String name, String username, FacultyType type, Role... roles) {
 		Faculty faculty = new Faculty();
 		faculty.setName(name);
 		faculty.setType(type);
 
 		LoginUser user2 = new LoginUser();
-		user2.setUsername(faculty.getName().toLowerCase());
+		user2.setUsername(username);
 		user2.setPassword(bCryptPasswordEncoder.encode("3"));
+		user2.getRoles().addAll(Arrays.asList(roles));
 		// user2.setRoles(createStudentRole());
 		// userService.signUp(user2);
 		faculty = facultyRepository.save(faculty);
+		faculty.setLoginUser(user2);
+		user2.setTag(String.valueOf(faculty.getId()));
 		return faculty;
 
 	}

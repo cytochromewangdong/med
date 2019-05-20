@@ -3,6 +3,7 @@ package com.students.mum.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Faculty {
 	private String name;
 
 	private FacultyType type;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private LoginUser loginUser;
 
 	@OneToMany(mappedBy = "professor")

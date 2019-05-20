@@ -18,7 +18,7 @@ public class GlobalController {
 		return "redirect:/index";
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STUDENT')")
+	@PreAuthorize("hasAuthority('STUDENT') or hasAuthority('ADMIN') or hasAuthority('FACULTY')")
 	// @PreAuthorize("hasRole('FUCK')")
 	@RequestMapping("/index")
 	public String index() {

@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 				.antMatchers("/login", "/registration", "/h2-console/**").permitAll().and().formLogin()
 				.loginPage("/login").failureUrl(LOGIN_ERROR).defaultSuccessUrl("/").and().logout()
-				.deleteCookies(SecurityConstants.TOKEN_COOKIE_NAME).and().csrf().ignoringAntMatchers("/h2-console/**").and()// .ignoringAntMatchers("/h2-console/**");//
+				.deleteCookies(SecurityConstants.TOKEN_COOKIE_NAME).and().csrf().disable()//.ignoringAntMatchers("/h2-console/**").and()// .ignoringAntMatchers("/h2-console/**");//
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() // .disable();//
 				// // don't apply CSRF
 				// protection to /h2-console

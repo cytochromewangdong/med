@@ -21,8 +21,6 @@
 					<li th:each="err : ${#fields.errors('global')}" th:text="${err}">Input
 						is incorrect</li>
 				</ul>
-				<input type="hidden" th:name="${_csrf.parameterName}"
-					th:value="${_csrf.token}" />
 
 				<div class="form-group row">
 					<label for="date" class="col-sm-2 col-form-label">Date:</label>

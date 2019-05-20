@@ -14,8 +14,8 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 	crossorigin="anonymous"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -31,7 +31,28 @@
 			$('#logoutForm').submit();
 		})
 	})
-
+	$(function() {
+		$("#calculateAll").click(function() {
+			$.post("/report/calculateAll", function(data) {
+				alert("Finished the report calculation");
+			});
+		})
+	})
+	function save(filename, data) {
+		var blob = new Blob([ data ], {
+			type : 'text/csv'
+		});
+		if (window.navigator.msSaveOrOpenBlob) {
+			window.navigator.msSaveBlob(blob, filename);
+		} else {
+			var elem = window.document.createElement('a');
+			elem.href = window.URL.createObjectURL(blob);
+			elem.download = filename;
+			document.body.appendChild(elem);
+			elem.click();
+			document.body.removeChild(elem);
+		}
+	}
 	$(function() {
 
 		$('#export').click(function() {
@@ -62,8 +83,10 @@
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Admin </a>
 					<div class="dropdown-menu">
-						<a th:href="@{/tm/uploadList/}" class="nav-link">Data Import</a> <a
+						<a th:href="@{/tm/updIndex/}" class="nav-link">Data Import</a> <a
 							th:href="@{/tm/retreatList/}" class="nav-link">Retreat/Checkout</a>
+						<a th:href="@{/report/entry/}" class="nav-link">Entry Report</a> <a
+							href="#" class="nav-link" id="calculateAll">CalculateAll</a>
 					</div>
 				</div>
 
@@ -71,7 +94,9 @@
 					sec:authorize="hasAuthority('FACULTY')">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
 						role="button" aria-haspopup="true" aria-expanded="false">Faculty</a>
-					<div class="dropdown-menu"></div>
+					<div class="dropdown-menu">
+						<a th:href="@{/report/block/}" class="nav-link">Course Report</a>
+					</div>
 				</div>
 				<div class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
@@ -85,8 +110,7 @@
 						id="logout">Logout</a> Welcome: <span sec:authentication="name"></span>
 					<form style="display: none" name="logoutForm" id="logoutForm"
 						action="#" th:action="@{/logout}" method="post">
-						<input type="hidden" th:name="${_csrf.parameterName}"
-							th:value="${_csrf.token}" /> <input type="submit" value="Logout" />
+						<input type="submit" value="Logout" />
 					</form>
 				</div>
 
