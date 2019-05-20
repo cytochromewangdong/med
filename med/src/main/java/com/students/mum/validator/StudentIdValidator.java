@@ -3,7 +3,7 @@ package com.students.mum.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.h2.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class StudentIdValidator implements ConstraintValidator<StudentId, String
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if (StringUtils.isNullOrEmpty(value)) {
+		if (StringUtils.isEmpty(value)) {
 			return false;
 		}
 		Student product = null;
