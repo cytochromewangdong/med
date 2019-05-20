@@ -53,6 +53,13 @@ public class ReportServiceImpl implements ReportService {
 	public StudentDetailReport summaryStudentDetailReport(StudentDetailReport reportParam) {
 
 		Student stu = studentRepository.getOne(reportParam.getStudentNum());
+		reportParam.setOverallPresent(
+				stu.getBlockStudentStatistics().stream().mapToInt((b -> b.getMedBlockCount())).sum());
+		reportParam.setOverallPossible(
+				countAvailableSessionDays(stu.getEntry().getMeditationStartDate(), LocalDate.now()));
+		reportParam.setOverallPercent(
+				Math.round((reportParam.getOverallPresent() * 1000 / (double) reportParam.getOverallPossible()))
+						/ 10.0);
 		reportParam.setRetreatList(
 				stu.getTmCheckRetreatList().stream().filter(t -> t.getType() == CheckRetreatType.retreat)
 						.map(TmCheckRetreat::getDate).collect(Collectors.toList()));
@@ -75,6 +82,10 @@ public class ReportServiceImpl implements ReportService {
 			reportParam.setPercent(
 					Math.round((reportParam.getPresent() * 1000 / (double) reportParam.getRecordListForBlock().size()))
 							/ 10.0);
+
+			// private int overallPossible;
+			// private int overallPresent;
+			// private double overallPercent;
 			// 70%andabove: .5%EC(16daysinastandardblock)
 			// 80%andabove: 1%EC(18days inastandardblock)
 			// 90% and above: 1.5% EC (20 days in a standard block)

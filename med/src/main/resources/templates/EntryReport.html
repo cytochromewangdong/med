@@ -30,13 +30,14 @@
 			</thead>
 			<tbody>
 				<tr th:if="${report.data.empty}">
-					<td colspan="4">No Entry Report</td>
+					<td colspan="5">No Entry Report</td>
 				</tr>
 				<tr th:each="record : ${report.data}">
 					<td th:text="${record.studentNumber}">1</td>
 					<td th:text="${record.studentName}">1</td>
 					<td th:text="${record.present}">1</td>
 					<td th:text="${record.possible}">1</td>
+					<td th:text="${record.percent}">1</td>
 				</tr>
 			</tbody>
 

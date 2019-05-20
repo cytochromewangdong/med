@@ -16,10 +16,11 @@ public class StudentDetailReport {
 	@Getter
 	@Setter
 	@AllArgsConstructor
-	public static class MeditationResult{
+	public static class MeditationResult {
 		private LocalDate date;
 		private boolean taken;
 	}
+
 	@NotNull
 	private String studentNum;
 	private Long blockId;
@@ -27,8 +28,12 @@ public class StudentDetailReport {
 	private double percent;
 	private int possible;
 	private double score;
-	private int present = 0;
+
+	private int present;
 	private int blockSessionSize;
+	private int overallPossible;
+	private int overallPresent;
+	private double overallPercent;
 	private List<LocalDate> retreatList = new ArrayList<>();
 	private List<LocalDate> checkList = new ArrayList<>();
 }

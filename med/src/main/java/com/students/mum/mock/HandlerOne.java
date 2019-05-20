@@ -149,9 +149,10 @@ public class HandlerOne {
 		Student s11 = createStudent("1011", "9011", "uirest", student);
 
 		Faculty f1 = createFaculty("Rujian Xing", "tina", FacultyType.professor, faculty);
-		Faculty f2 = createFaculty("Paul Corozza", "paul", FacultyType.professor, faculty);
-		Faculty f3 = createFaculty("Greg Guthire", "geek", FacultyType.professor, admin);
-
+		Faculty f2 = createFaculty("Paul Corozza", "both", FacultyType.professor, admin, faculty);
+		Faculty f3 = createFaculty("Greg Guthire", "admin", FacultyType.professor, admin);
+//		Faculty f4 = createFaculty("Greg Guthire", "both", FacultyType.professor, admin, faculty);
+		
 		Section sec1 = createSection(b1, c1, f1, Arrays.asList(s1, s2, s3));
 		Section sec2 = createSection(b1, c2, f2, Arrays.asList(s4, s5, s6));
 		Section sec3 = createSection(b2, c1, f1, Arrays.asList(s1, s2, s3));
@@ -191,7 +192,7 @@ public class HandlerOne {
 
 		LoginUser user2 = new LoginUser();
 		user2.setUsername(username);
-		user2.setPassword(bCryptPasswordEncoder.encode("3"));
+		user2.setPassword(bCryptPasswordEncoder.encode("2"));
 		user2.getRoles().addAll(Arrays.asList(roles));
 		// user2.setRoles(createStudentRole());
 		// userService.signUp(user2);

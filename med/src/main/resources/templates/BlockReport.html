@@ -7,7 +7,7 @@
 
 	<!--/* Insert content fragment with content of the element with id = 'task-details' */-->
 	<div layout:fragment="app-content">
-		<h1>Entry Report</h1>
+		<h1>Course Report</h1>
 		<form method="GET" th:object="${report}" id="groupForm">
 			<select th:field="*{groupId}" id="groupSelect">
 				<option value="">--</option>
@@ -32,7 +32,7 @@
 			</thead>
 			<tbody>
 				<tr th:if="${report.data.empty}">
-					<td colspan="6">No Entry Report</td>
+					<td colspan="6">No Course Report</td>
 				</tr>
 				<tr th:each="record : ${report.data}">
 					<td th:text="${record.studentNumber}">1</td>

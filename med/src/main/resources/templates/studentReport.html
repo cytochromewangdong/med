@@ -7,9 +7,26 @@
 
 	<!--/* Insert content fragment with content of the element with id = 'task-details' */-->
 	<div layout:fragment="app-content">
-		<h1>
-			Retreat History: <span th:text="${report.retreatList.size()}"></span>
-		</h1>
+		<h1>Entry Statistics:</h1>
+		<div class="row">
+			<span class="col-sm-2"> Overall:</span> <span class="col-sm-3"><span
+				th:text="${report.overallPresent}"></span>/<span
+				th:text="${report.overallPossible}"></span></span>
+
+		</div>
+		<div class="row">
+			<span class="col-sm-2">Rational:</span><span class="col-sm-3"
+				th:text="${report.overallPercent}+'%'"></span>
+		</div>
+		<div class="row">
+			<span class="col-sm-2"> Retreat:</span> <span
+				th:text="${report.retreatList.size()}"></span>
+		</div>
+		<div class="row">
+			<span class="col-sm-2"> Check:</span> <span
+				th:text="${report.checkList.size()}"></span>
+		</div>
+		<h1>Retreat History:</h1>
 		<table class="table table-bordered table-striped">
 			<tbody>
 				<tr th:if="${report.retreatList.empty}">
@@ -21,9 +38,7 @@
 			</tbody>
 		</table>
 		<hr>
-		<h1>
-			Check History: <span th:text="${report.checkList.size()}"></span>
-		</h1>
+		<h1>Check History:</h1>
 		<table class="table table-bordered table-striped">
 			<tbody>
 				<tr th:if="${report.checkList.empty}">
@@ -46,7 +61,8 @@
 		<button th:if="${!report.recordListForBlock.empty}"
 			class="btn btn-lg btn-primary btn-block" name="export" id="export">export
 		</button>
-		<div th:if="${!report.recordListForBlock.empty}" style="margin-top:3px;margin-bottom:3px">
+		<div th:if="${!report.recordListForBlock.empty}"
+			style="margin-top: 3px; margin-bottom: 3px">
 			<div class="row">
 				<span class="col-sm-2"> Overall:</span> <span class="col-sm-3"><span
 					th:text="${report.present}"></span>/<span
