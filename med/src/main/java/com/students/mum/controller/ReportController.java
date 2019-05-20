@@ -1,13 +1,20 @@
 package com.students.mum.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.students.mum.domain.Block;
 import com.students.mum.dto.GroupReport;
 import com.students.mum.dto.StudentDetailReport;
+import com.students.mum.security.UserDetailAndTag;
 import com.students.mum.service.ReportService;
 
 @Controller
@@ -33,11 +40,14 @@ public class ReportController {
 		return "blockReport";
 	}
 
+	
+	@PreAuthorize("hasAuthority('STUDENT')")
 	@RequestMapping("/student")
-	public String studentReport(Model model, @RequestParam("studentNumber") String studentNumber,
-			@RequestParam(value = "blockId", required = false) Long blockId) {
+	public String studentReport(Model model, @RequestParam(value = "blockId", required = false) Long blockId) {
+		// , @RequestParam("studentNumber") String studentNumber
+		UserDetailAndTag tag=(UserDetailAndTag) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		StudentDetailReport report = new StudentDetailReport();
-		report.setStudentNum(studentNumber);
+		report.setStudentNum(tag.getTag());
 		report.setBlockId(blockId);
 		model.addAttribute("report", reportService.summaryStudentDetailReport(report));
 		return "studentReport";

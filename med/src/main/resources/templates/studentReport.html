@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<body>
+
+	<!--/* Insert content fragment with content of the element with id = 'task-details' */-->
+	<div layout:fragment="app-content">
+		<h1>
+			Retreat History: <span th:text="${report.retreatList.size()}"></span>
+		</h1>
+		<table class="table table-bordered table-striped">
+			<tbody>
+				<tr th:if="${report.retreatList.empty}">
+					<td colspan="1">No retreat history</td>
+				</tr>
+				<tr th:each="record : ${report.retreatList}">
+					<td th:text="${record}">1</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<h1>
+			Check History: <span th:text="${report.checkList.size()}"></span>
+		</h1>
+		<table class="table table-bordered table-striped">
+			<tbody>
+				<tr th:if="${report.checkList.empty}">
+					<td colspan="1">No retreat history</td>
+				</tr>
+				<tr th:each="record : ${report.checkList}">
+					<td th:text="${record}">1</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<h1>Block Report</h1>
+		<form method="GET" th:object="${report}" id="blockForm">
+			<select th:field="*{blockId}" id="blockSelect">
+				<option value="">--</option>
+				<option th:each="block : ${blockList}" th:value="${block.id}"
+					th:text="${block.name}">bname</option>
+			</select>
+		</form>
+		<button th:if="${!report.recordListForBlock.empty}"
+			class="btn btn-lg btn-primary btn-block" name="export" id="export">export
+		</button>
+		<table class="table table-bordered table-striped"
+			th:if="${report.blockId!=null}" id="dataSource">
+			<tbody>
+				<tr th:if="${report.recordListForBlock.empty}">
+					<td colspan="2">No Block Report</td>
+				</tr>
+				<tr th:each="record : ${report.recordListForBlock}">
+					<td th:text="${record.date}">1</td>
+					<td th:text="${record.taken}">1</td>
+				</tr>
+			</tbody>
+		</table>
+		<script>
+			function save(filename, data) {
+				var blob = new Blob([ data ], {
+					type : 'text/csv'
+				});
+				if (window.navigator.msSaveOrOpenBlob) {
+					window.navigator.msSaveBlob(blob, filename);
+				} else {
+					var elem = window.document.createElement('a');
+					elem.href = window.URL.createObjectURL(blob);
+					elem.download = filename;
+					document.body.appendChild(elem);
+					elem.click();
+					document.body.removeChild(elem);
+				}
+			}
+			$(function() {
+				$("#blockSelect").change(function() {
+					$('#blockForm').submit();
+				})
+			})
+		</script>
+	</div>
+</body>
+</html>

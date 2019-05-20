@@ -55,50 +55,50 @@ public class HandlerOne {
 	private MeditationImportFileRepository meditationImportFileRepository;
 
 	public void mockBlockData() {
-//		Faculty faculty = new Faculty();
-//		faculty.setName("Prof1");
-//		faculty.setType(FacultyType.professor);
-//		LoginUser user = new LoginUser();
-//		user.setUsername("4");
-//		user.setPassword("2");
-//		user.setRoles(roleRepository.findAll());
-//		userService.signUp(user);
-//
-//		faculty.setLoginUser(user);
-//
-//		Block block = new Block();
-//		Section section = new Section();
-//		section.setCourse(courseRepository.findAll().get(0));
-//		section.setProfessor(faculty);
-//		section.setBlock(block);
-//		faculty.getSectionList().add(section);
-//
-//		List<Student> studentList = studentRepository.findByTestGroup(0);
-//		section.getStudentList().addAll(studentList);
-//		studentList.forEach(s -> s.getSectionList().add(section));
-//
-//		block.setStartDate(LocalDate.of(2018, 10, 01));
-//		block.setEndDate(LocalDate.of(2018, 10, 30));
-////		block.setSessionDays(22);
-//		block.getSectionList().add(section);
-//		facultyRepository.save(faculty);
-//		blockRepository.save(block);
-//		sectionRepository.save(section);
+		// Faculty faculty = new Faculty();
+		// faculty.setName("Prof1");
+		// faculty.setType(FacultyType.professor);
+		// LoginUser user = new LoginUser();
+		// user.setUsername("4");
+		// user.setPassword("2");
+		// user.setRoles(roleRepository.findAll());
+		// userService.signUp(user);
+		//
+		// faculty.setLoginUser(user);
+		//
+		// Block block = new Block();
+		// Section section = new Section();
+		// section.setCourse(courseRepository.findAll().get(0));
+		// section.setProfessor(faculty);
+		// section.setBlock(block);
+		// faculty.getSectionList().add(section);
+		//
+		// List<Student> studentList = studentRepository.findByTestGroup(0);
+		// section.getStudentList().addAll(studentList);
+		// studentList.forEach(s -> s.getSectionList().add(section));
+		//
+		// block.setStartDate(LocalDate.of(2018, 10, 01));
+		// block.setEndDate(LocalDate.of(2018, 10, 30));
+		//// block.setSessionDays(22);
+		// block.getSectionList().add(section);
+		// facultyRepository.save(faculty);
+		// blockRepository.save(block);
+		// sectionRepository.save(section);
 
 		// 1,10/13/18,EAM,DB
-//		MeditationImportFile importFile = new MeditationImportFile();
-//		importFile.setFileName("test.data");
-//		importFile.setType(MeditationImportFileType.scan);
-//
-//		MeditationImportFile importFile2 = new MeditationImportFile();
-//		importFile2.setFileName("test2.data");
-//		importFile2.setType(MeditationImportFileType.mannually);
-//		meditationImportFileRepository.save(importFile);
-//		importFile = new MeditationImportFile();
-//		importFile.setFileName("test.data");
-//		importFile.setType(MeditationImportFileType.scan);
-//		meditationImportFileRepository.save(importFile);
-//		meditationImportFileRepository.save(importFile2);
+		// MeditationImportFile importFile = new MeditationImportFile();
+		// importFile.setFileName("test.data");
+		// importFile.setType(MeditationImportFileType.scan);
+		//
+		// MeditationImportFile importFile2 = new MeditationImportFile();
+		// importFile2.setFileName("test2.data");
+		// importFile2.setType(MeditationImportFileType.mannually);
+		// meditationImportFileRepository.save(importFile);
+		// importFile = new MeditationImportFile();
+		// importFile.setFileName("test.data");
+		// importFile.setType(MeditationImportFileType.scan);
+		// meditationImportFileRepository.save(importFile);
+		// meditationImportFileRepository.save(importFile2);
 	}
 
 	public void handleAll() {
@@ -112,29 +112,29 @@ public class HandlerOne {
 
 		Course c4 = createCourse("Algorithm", "CS472", 4);
 
-		Block b1 = createBlock(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 1, 25));
-		Block b2 = createBlock(LocalDate.of(2019, 2, 1), LocalDate.of(2019, 2, 25));
-		Block b3 = createBlock(LocalDate.of(2019, 4, 1), LocalDate.of(2019, 4, 25));
-//		LoginUser user = new LoginUser();
-//		user.setUsername("123");
-//		user.setPassword("123");
-//		//user.getRoles().add(student);
-//		// loginUserRepository.save(user);
-//		userService.signUp(user);
+		Block b1 = createBlock("201901Block", LocalDate.of(2019, 1, 1), LocalDate.of(2019, 1, 25));
+		Block b2 = createBlock("201902Block", LocalDate.of(2019, 2, 1), LocalDate.of(2019, 2, 25));
+		Block b3 = createBlock("201904Block", LocalDate.of(2019, 4, 1), LocalDate.of(2019, 4, 25));
+		// LoginUser user = new LoginUser();
+		// user.setUsername("123");
+		// user.setPassword("123");
+		// //user.getRoles().add(student);
+		// // loginUserRepository.save(user);
+		// userService.signUp(user);
 
-//		Course course = new Course();
-//		course.setCode("CS545");
-//		course.setName("(WAA)Web application architecture");
-//		course.setCredit(4);
-//		Course course2 = new Course();
-//		course2.setCode("CS572");
-//		course2.setName("(MWA)Modern web application");
-//		course2.setCredit(4);
-//		List<Course> sourseList = Arrays.asList(course, course2);
-//
-//		courseRepository.saveAll(sourseList);
+		// Course course = new Course();
+		// course.setCode("CS545");
+		// course.setName("(WAA)Web application architecture");
+		// course.setCredit(4);
+		// Course course2 = new Course();
+		// course2.setCode("CS572");
+		// course2.setName("(MWA)Modern web application");
+		// course2.setCredit(4);
+		// List<Course> sourseList = Arrays.asList(course, course2);
+		//
+		// courseRepository.saveAll(sourseList);
 
-		Student s1 = createStudent("1001", "9001", "Balindra Rayamajhi", student,admin);
+		Student s1 = createStudent("1001", "9001", "Balindra Rayamajhi", student, admin);
 		Student s2 = createStudent("1002", "9002", "Dong  Wang", student);
 		Student s3 = createStudent("1003", "9003", "Brhane Gerbreweld", student);
 		Student s4 = createStudent("1004", "9004", "Robel Gebreweld", student);
@@ -150,8 +150,8 @@ public class HandlerOne {
 		Faculty f2 = createFaculty("Paul Corozza", FacultyType.professor);
 		Faculty f3 = createFaculty("Greg Guthire", FacultyType.professor);
 
-		 Section sec1=createSection(b1, c1, f1, Arrays.asList(s1,s2,s3));
-		 Section sec2=createSection(b1, c2, f2, Arrays.asList(s4,s5,s6));
+		Section sec1 = createSection(b1, c1, f1, Arrays.asList(s1, s2, s3));
+		Section sec2 = createSection(b1, c2, f2, Arrays.asList(s4, s5, s6));
 
 		mockBlockData();
 	}
@@ -215,10 +215,11 @@ public class HandlerOne {
 
 	}
 
-	private Block createBlock(LocalDate start, LocalDate end) {
+	private Block createBlock(String name, LocalDate start, LocalDate end) {
 		Block block = new Block();
 		block.setStartDate(start);
 		block.setEndDate(end);
+		block.setName(name);
 		return blockRepository.save(block);
 
 	}
@@ -231,7 +232,7 @@ public class HandlerOne {
 		section.setStudentList(students);
 		block.getSectionList().add(section);
 		faculty.getSectionList().add(section);
-		students.forEach(s->s.getSectionList().add(section));
+		students.forEach(s -> s.getSectionList().add(section));
 		return sectionRepository.save(section);
 
 	}

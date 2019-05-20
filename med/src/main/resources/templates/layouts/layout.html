@@ -31,6 +31,22 @@
 			$('#logoutForm').submit();
 		})
 	})
+
+	$(function() {
+
+		$('#export').click(function() {
+			var all = [];
+			var id = "#dataSource";
+			$(id + "> tbody  > tr").each(function() {
+				var cols = [];
+				$(this).find('td').each(function(colIndex, c) {
+					cols.push(c.textContent);
+				});
+				all.push(cols.join(","));
+			})
+			save("dataFile.csv", all.join("\n"));
+		})
+	})
 </script>
 </head>
 <body>
@@ -60,7 +76,9 @@
 				<div class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
 						role="button" aria-haspopup="true" aria-expanded="false">Student</a>
-					<div class="dropdown-menu"></div>
+					<div class="dropdown-menu">
+						<a th:href="@{/report/student/}" class="nav-link">Meditation</a>
+					</div>
 				</div>
 				<div class="navbar-header navbar-right">
 					<a href="#" class="nav-link navbar-link" style="display: inline"

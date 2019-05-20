@@ -22,7 +22,7 @@ import lombok.Setter;
 @Entity
 // @BlockDate(min = 5, maximum = 50)
 public class Block extends DefaultPrimaryKeyEntity {
-
+	private String name;
 	// @NotNull
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	// @Future
