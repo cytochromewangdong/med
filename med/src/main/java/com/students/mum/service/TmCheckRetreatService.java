@@ -61,6 +61,17 @@ public class TmCheckRetreatService {
 		tmCheckRetreat.setStudent(null);
 		tmCheckRetreatRepository.delete(tmCheckRetreat);
 	}
+	public  TmCheckRetreatDto findTmCheckRetreatById(Long id)
+	{
+		TmCheckRetreat result =tmCheckRetreatRepository.getOne(id);
+		result.getStudent().getBarcode();
+		TmCheckRetreatDto dto = new TmCheckRetreatDto();
+		dto.setDate(result.getDate());
+		dto.setId(result.getId());
+		dto.setStudent(result.getStudent());
+		dto.setType(result.getType());
+		return dto;
+	}
 
 	public List<TmCheckRetreat> findTmCheckRetreatByDate(LocalDate startDate, LocalDate endDate) {
 		return tmCheckRetreatRepository.findByDateBetweenOrderByIdDesc(startDate, endDate);

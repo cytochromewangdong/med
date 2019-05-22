@@ -17,6 +17,7 @@
 
 			<form method="POST" th:action="@{/tm/retreatCreate}"
 				th:object="${tmCheckRetreatDto}">
+				<input type="hidden" th:field="*{id}" />
 				<ul th:if="${#fields.hasErrors('global')}" class="text-danger">
 					<li th:each="err : ${#fields.errors('global')}" th:text="${err}">Input
 						is incorrect</li>

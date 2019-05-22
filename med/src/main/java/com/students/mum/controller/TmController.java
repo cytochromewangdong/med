@@ -6,16 +6,13 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.students.mum.domain.TmCheckRetreat;
 import com.students.mum.dto.TmCheckRetreatDto;
@@ -30,15 +27,20 @@ public class TmController {
 	// @PreAuthorize("hasRole('ROLE_ADMIN')")
 	// @Secured("ROLE_ADMIN")
 	@RequestMapping("/retreatCreate")
-	public String display(Model model) {
-//		@ModelAttribute("record") TmCheckRetreatDto record
-		model.addAttribute("tmCheckRetreatDto", new TmCheckRetreatDto());
+	public String display(Model model, @RequestParam(value = "id", required = false) Long id) {
+		// @ModelAttribute("record") TmCheckRetreatDto record
+		if (id == null) {
+			model.addAttribute("tmCheckRetreatDto", new TmCheckRetreatDto());
+		} else {
+			model.addAttribute("tmCheckRetreatDto", tmCheckRetreatService.findTmCheckRetreatById(id));	
+		}
 		// Collection<SimpleGrantedAuthority> authorities =
 		// (Collection<SimpleGrantedAuthority>)
 		// SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		// System.out.println(authorities);
 		return "tmCreate";
 	}
+
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/retreatCreate")
 	public String save(@Valid TmCheckRetreatDto dto, BindingResult br, Model model) {
@@ -48,7 +50,7 @@ public class TmController {
 		tmCheckRetreatService.saveTmCheckRetreat(dto);
 		return "redirect:/tm/retreatList";
 	}
-	
+
 	@Autowired
 	private TmCheckRetreatService tmCheckRetreatService;
 
@@ -84,20 +86,20 @@ public class TmController {
 		return "redirect:/tm/retreatList";
 	}
 
-//	@PostMapping("/rsave")
-//	@ResponseBody
-//	public TmCheckRetreat rsave(@Valid @RequestBody TmCheckRetreatDto dto) {
-//		return tmCheckRetreatService.saveTmCheckRetreat(dto);
-//	}
-//
-//	@PostMapping("/rsearch")
-//	@ResponseBody
-//	public List<TmCheckRetreat> rsearch(
-//			@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate startDate,
-//			@RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate endDate) {
-//		return findRetreat(startDate, endDate);
-//	}
-
-
+	// @PostMapping("/rsave")
+	// @ResponseBody
+	// public TmCheckRetreat rsave(@Valid @RequestBody TmCheckRetreatDto dto) {
+	// return tmCheckRetreatService.saveTmCheckRetreat(dto);
+	// }
+	//
+	// @PostMapping("/rsearch")
+	// @ResponseBody
+	// public List<TmCheckRetreat> rsearch(
+	// @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern
+	// = "MM/dd/yyyy") LocalDate startDate,
+	// @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern =
+	// "MM/dd/yyyy") LocalDate endDate) {
+	// return findRetreat(startDate, endDate);
+	// }
 
 }
